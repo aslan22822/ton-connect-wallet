@@ -12,7 +12,7 @@ from bs4 import BeautifulSoup
 import requests
 import json
 
-manifest = ""
+manifest = "https://aslan22822.github.io/ton-connect-wallet/"
 
 def cls():
     os.system("cls" if os.name=="nt" else "clear")
